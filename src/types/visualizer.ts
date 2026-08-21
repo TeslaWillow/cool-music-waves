@@ -1,4 +1,4 @@
-export type VisualizerMode = "circular" | "bars";
+export type VisualizerMode = "circular" | "bars" | "tunnel";
 
 // Base type options
 export interface BaseVisualizerOptions {

@@ -3,6 +3,8 @@
 import { BaseRenderer } from "../base/BaseRenderer";
 import type { CircularWaveOptions } from "../../types/visualizer";
 
+// Polar coordinate system
+// r = radius, θ = angle
 export class CircularWaveRenderer extends BaseRenderer<CircularWaveOptions> {
   public render(
     data: Uint8Array,

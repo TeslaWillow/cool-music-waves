@@ -4,8 +4,9 @@ import React, { useRef, useEffect } from 'react';
 import { useAudioAnalyzer } from '../hooks/useAudioAnalyzer';
 import { BarsWaveRenderer } from '../renderers/canvas/BarsWaveRenderer';
 import { CircularWaveRenderer } from '../renderers/canvas/CircularWaveRenderer';
-import { BaseRenderer } from '../renderers/base/BaseRenderer';
-import type { AudioVisualizerProps, VisualizerMode } from '../types/visualizer';
+import { TunnelWaveRenderer } from '../renderers/webgl/TunnelWaveRenderer';
+import type { AudioVisualizerProps } from '../types/visualizer';
+import type { BaseRenderer } from '../renderers/base/BaseRenderer';
 
 export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
     audioElement,
@@ -15,18 +16,10 @@ export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
 }) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const rendererRef = useRef<BaseRenderer<typeof options> | null>(null);
+    const rendererRef = useRef<BaseRenderer<typeof options> | TunnelWaveRenderer | null>(null);
     const animationFrameId = useRef<number | null>(null);
 
     const { getAudioData } = useAudioAnalyzer(audioElement, options);
-
-    // Renderer instances
-    const createRenderer = (ctx: CanvasRenderingContext2D, currentMode: VisualizerMode) => {
-        if (currentMode === 'bars') {
-            return new BarsWaveRenderer(ctx);
-        }
-        return new CircularWaveRenderer(ctx);
-    };
 
     // ResizeObserver to adapt the canvas to the size of the parent div
     useEffect(() => {
@@ -47,17 +40,35 @@ export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
         return () => {
             resizeObserver.disconnect();
         };
-    }, []);
+    }, [mode]);
 
     // Render loop
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        rendererRef.current = createRenderer(ctx, mode);
+        switch (mode) {
+            case 'tunnel': {
+                const gl = canvas.getContext('webgl') || (canvas.getContext('experimental-webgl') as WebGLRenderingContext | null);
+                if (!gl) return;
+                rendererRef.current = new TunnelWaveRenderer(gl);
+                break;
+            }
+            case 'bars': {
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+                rendererRef.current = new BarsWaveRenderer(ctx);
+                break;
+            }
+            case 'circular': {
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+                rendererRef.current = new CircularWaveRenderer(ctx);
+                break;
+            }
+            default:
+                throw new Error(`Unsupported visualizer mode: ${mode}`);
+        }
 
         const renderLoop = () => {
             const data = getAudioData();
@@ -84,6 +95,7 @@ export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
             className={className}
             style={{ width: '100%', height: '100%', position: 'relative' }}>
             <canvas
+                key={mode === 'tunnel' ? 'webgl' : '2d'}
                 ref={canvasRef}
                 style={{ display: 'block', width: '100%', height: '100%' }} />
         </div>

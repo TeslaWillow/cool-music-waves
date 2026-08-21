@@ -24,12 +24,24 @@ export function App() {
             <div style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '20px' }}>
                 <audio ref={audioRef} controls src={audioMP3} />
 
-                <button
-                    onClick={() => setMode(mode === 'circular' ? 'bars' : 'circular')}
-                    style={{ padding: '8px 16px', background: '#00ffcc', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+                <select
+                    value={mode}
+                    onChange={(e) => setMode(e.target.value as VisualizerMode)}
+                    style={{
+                        padding: '8px 16px',
+                        background: '#00ffcc',
+                        color: '#000',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                        outline: 'none'
+                    }}
                 >
-                    Toggle Mode: ({mode})
-                </button>
+                    <option value="bars">Bars</option>
+                    <option value="circular">Circular</option>
+                    <option value="tunnel">Tunnel</option>
+                </select>
             </div>
 
             <div style={{
