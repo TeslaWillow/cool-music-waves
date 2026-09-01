@@ -1,5 +1,5 @@
 {
-  "name": "cool-music-waves",
+  "name": "@teslawillow/cool-music-waves",
   "private": false,
   "description": "Modular audio visualization library for React using Canvas 2D, WebGL, and Three.js",
   "type": "module",
