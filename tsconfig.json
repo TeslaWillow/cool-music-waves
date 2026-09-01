@@ -17,8 +17,5 @@
     "emitDeclarationOnly": true,
     "moduleResolution": "bundler",
     "strict": true
-  },
-  "include": [
-    "src"
-  ]
+  }
 }
