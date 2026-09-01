@@ -4,6 +4,7 @@ export { useAudioAnalyzer } from "./hooks/useAudioAnalyzer";
 
 export { BaseRenderer } from "./renderers/base/BaseRenderer";
 export { BarsWaveRenderer } from "./renderers/canvas/BarsWaveRenderer";
+export { SpectrumBarsRenderer } from "./renderers/canvas/SpectrumBarsRenderer";
 export { CircularWaveRenderer } from "./renderers/canvas/CircularWaveRenderer";
 export { TunnelWaveRenderer } from "./renderers/webgl/TunnelWaveRenderer";
 

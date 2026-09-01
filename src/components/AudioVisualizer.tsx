@@ -3,8 +3,10 @@
 import React, { useRef, useEffect } from 'react';
 import { useAudioAnalyzer } from '../hooks/useAudioAnalyzer';
 import { BarsWaveRenderer } from '../renderers/canvas/BarsWaveRenderer';
+import { SpectrumBarsRenderer } from '../renderers/canvas/SpectrumBarsRenderer';
 import { CircularWaveRenderer } from '../renderers/canvas/CircularWaveRenderer';
 import { TunnelWaveRenderer } from '../renderers/webgl/TunnelWaveRenderer';
+import { SphereMeshRenderer } from '../renderers/three/SphereMeshRenderer';
 import type { AudioVisualizerProps } from '../types/visualizer';
 import type { BaseRenderer } from '../renderers/base/BaseRenderer';
 
@@ -16,7 +18,7 @@ export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
 }) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const rendererRef = useRef<BaseRenderer<typeof options> | TunnelWaveRenderer | null>(null);
+    const rendererRef = useRef<BaseRenderer<typeof options> | TunnelWaveRenderer | SphereMeshRenderer | null>(null);
     const animationFrameId = useRef<number | null>(null);
 
     const { getAudioData } = useAudioAnalyzer(audioElement, options);
@@ -60,10 +62,20 @@ export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
                 rendererRef.current = new BarsWaveRenderer(ctx);
                 break;
             }
+            case 'spectrumBars': {
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+                rendererRef.current = new SpectrumBarsRenderer(ctx);
+                break;
+            }
             case 'circular': {
                 const ctx = canvas.getContext('2d');
                 if (!ctx) return;
                 rendererRef.current = new CircularWaveRenderer(ctx);
+                break;
+            }
+            case 'sphere3d': {
+                rendererRef.current = new SphereMeshRenderer(canvas);
                 break;
             }
             default:
@@ -86,6 +98,10 @@ export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
             if (animationFrameId.current) {
                 cancelAnimationFrame(animationFrameId.current);
             }
+            if (rendererRef.current && 'dispose' in rendererRef.current && typeof rendererRef.current.dispose === 'function') {
+                rendererRef.current.dispose();
+            }
+            rendererRef.current = null;
         };
     }, [getAudioData, mode, options]);
 
@@ -95,7 +111,7 @@ export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
             className={className}
             style={{ width: '100%', height: '100%', position: 'relative' }}>
             <canvas
-                key={mode === 'tunnel' ? 'webgl' : '2d'}
+                key={mode}
                 ref={canvasRef}
                 style={{ display: 'block', width: '100%', height: '100%' }} />
         </div>
