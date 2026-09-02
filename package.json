@@ -3,7 +3,7 @@
   "private": false,
   "description": "Modular audio visualization library for React using Canvas 2D, WebGL, and Three.js",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Hector Caballero (TeslaWillow)",
   "license": "MIT",
   "main": "./dist/index.umd.js",
