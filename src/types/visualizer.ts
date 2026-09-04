@@ -1,4 +1,11 @@
-export type VisualizerMode = "circular" | "bars" | "spectrumBars" | "tunnel" | "sphere3d" | "waveform";
+export type VisualizerMode =
+  | "circular"
+  | "bars"
+  | "spectrumBars"
+  | "tunnel"
+  | "sphere3d"
+  | "waveform"
+  | "wavePlane3d";
 
 // Base type options
 export interface BaseVisualizerOptions {
@@ -56,11 +63,35 @@ export interface Sphere3DOptions extends BaseVisualizerOptions {
   detail?: number;
 }
 
+// 3D Wave Plane graph type options
+export interface WavePlane3DOptions extends BaseVisualizerOptions {
+  color?: string;
+  wireframe?: boolean;
+  gridSegmentsX?: number;
+  gridSegmentsY?: number;
+  amplitudeHeight?: number;
+  speed?: number;
+  reflection?: boolean;
+  reflectionOpacity?: number;
+  rotationX?: number;
+  enableMouseControl?: boolean;
+  mouseSensitivity?: number;
+  cameraPosition?: [number, number, number];
+  debugMode?: boolean;
+}
+
 // Audio visualizer props
 export interface AudioVisualizerProps {
   audioElement: HTMLAudioElement | null;
   mode?: VisualizerMode;
-  options?: CircularWaveOptions | BarsWaveOptions | SpectrumBarsOptions | WaveformOptions | Sphere3DOptions;
+  options?:
+    | CircularWaveOptions
+    | BarsWaveOptions
+    | SpectrumBarsOptions
+    | WaveformOptions
+    | Sphere3DOptions
+    | WavePlane3DOptions;
   className?: string;
 }
+
 

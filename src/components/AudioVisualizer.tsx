@@ -8,6 +8,7 @@ import { CircularWaveRenderer } from '../renderers/canvas/CircularWaveRenderer';
 import { WaveformRenderer } from '../renderers/canvas/WaveformRenderer';
 import { TunnelWaveRenderer } from '../renderers/webgl/TunnelWaveRenderer';
 import { SphereMeshRenderer } from '../renderers/three/SphereMeshRenderer';
+import { WavePlane3DRenderer } from '../renderers/three/WavePlane3DRenderer';
 import type { AudioVisualizerProps } from '../types/visualizer';
 import type { BaseRenderer } from '../renderers/base/BaseRenderer';
 
@@ -19,7 +20,7 @@ export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
 }) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const rendererRef = useRef<BaseRenderer<typeof options> | TunnelWaveRenderer | SphereMeshRenderer | null>(null);
+    const rendererRef = useRef<BaseRenderer<typeof options> | TunnelWaveRenderer | SphereMeshRenderer | WavePlane3DRenderer | null>(null);
     const animationFrameId = useRef<number | null>(null);
 
     const { getAudioData } = useAudioAnalyzer(audioElement, options);
@@ -83,6 +84,10 @@ export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
             }
             case 'sphere3d': {
                 rendererRef.current = new SphereMeshRenderer(canvas);
+                break;
+            }
+            case 'wavePlane3d': {
+                rendererRef.current = new WavePlane3DRenderer(canvas);
                 break;
             }
             default:

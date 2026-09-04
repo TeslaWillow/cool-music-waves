@@ -12,13 +12,14 @@ Transform any HTML `<audio>` element into an interactive, reactive visual experi
 
 ## 🚀 Features
 
-- 🎨 **6 Visualization Modes:**
+- 🎨 **7 Visualization Modes:**
   - `circular`: Dynamic circular bar waves expanding to the rhythm of the audio.
   - `bars`: Classic frequency equalizer bars customizable with color gradients.
   - `spectrumBars`: Flame-style spectrum bars with mirroring, bottom reflection, and smooth decay effects.
   - `waveform`: Real-time line wave / oscilloscope audio waveform.
   - `tunnel`: WebGL-accelerated 3D reactive tunnel.
   - `sphere3d`: Deformable 3D mesh sphere built on Three.js.
+  - `wavePlane3d`: 3D perspective terrain plane displaying traveling audio ripples with lower reflection.
 - 📐 **Fully Responsive:** Automatically adjusts canvas dimensions to match the parent container via `ResizeObserver`.
 - ⚡ **Web Audio API:** High-performance real-time audio frequency analysis using Fast Fourier Transform (FFT).
 - 🟦 **TypeScript First:** Complete type definitions and auto-completion for all renderer options.
@@ -183,6 +184,23 @@ Generates a 3D mesh sphere that dynamically deforms its geometry vertices accord
 />
 ```
 
+### 7. `wavePlane3d` (Three.js 3D Wave Plane Terrain)
+Renders a 3D perspective plane grid where audio wave ripples travel backwards into depth, featuring an optional mirrored floor plane.
+
+```tsx
+<AudioVisualizer
+  audioElement={audioElement}
+  mode="wavePlane3d"
+  options={{
+    color: '#ffaa00',
+    wireframe: true,
+    amplitudeHeight: 1.4,
+    reflection: true,
+    reflectionOpacity: 0.25,
+  }}
+/>
+```
+
 ---
 
 ## 📖 API Reference
@@ -192,7 +210,7 @@ Generates a 3D mesh sphere that dynamically deforms its geometry vertices accord
 | Property | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `audioElement` | `HTMLAudioElement \| null` | **Required** | Reference to the target HTML `<audio>` element. |
-| `mode` | `VisualizerMode` | `'circular'` | Render mode (`'circular'`, `'bars'`, `'spectrumBars'`, `'waveform'`, `'tunnel'`, `'sphere3d'`). |
+| `mode` | `VisualizerMode` | `'circular'` | Render mode (`'circular'`, `'bars'`, `'spectrumBars'`, `'waveform'`, `'tunnel'`, `'sphere3d'`, `'wavePlane3d'`). |
 | `options` | `BaseVisualizerOptions` | `{}` | Configuration object tailored to the chosen mode. |
 | `className` | `string` | `''` | Optional CSS class name for the wrapper element. |
 
@@ -248,6 +266,18 @@ Applicable to all visualizer modes:
 - `rotationSpeed` (`number`): Continuous rotation speed around axes.
 - `radius` (`number`): Base radius of the sphere.
 - `detail` (`number`): Geometry subdivision/detail level.
+
+#### 📐 `WavePlane3DOptions` (`mode="wavePlane3d"`)
+- `color` (`string`): Wireframe grid color (`'#00ffcc'`).
+- `wireframe` (`boolean`): Enables wireframe grid display (`true`).
+- `amplitudeHeight` (`number`): Max wave height displacement multiplier (`1.4`).
+- `reflection` (`boolean`): Enables lower reflection grid plane (`true`).
+- `reflectionOpacity` (`number`): Opacity for bottom reflection plane (`0.25`).
+- `rotationX` (`number`): X-axis tilt angle in radians (`-Math.PI / 3`).
+- `cameraPosition` (`[number, number, number]`): Custom initial camera coordinates `[x, y, z]` (`[0, 0, 5.5]`).
+- `enableMouseControl` (`boolean`): Enables interactive mouse orbit camera control and wheel zoom (`true`).
+- `mouseSensitivity` (`number`): Sensitivity multiplier for mouse camera movement (`1.0`).
+- `debugMode` (`boolean`): Displays real-time camera `[X, Y, Z]` position overlay for easy camera positioning (`false`).
 
 ---
 

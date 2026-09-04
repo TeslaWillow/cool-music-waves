@@ -8,5 +8,7 @@ export { SpectrumBarsRenderer } from "./renderers/canvas/SpectrumBarsRenderer";
 export { CircularWaveRenderer } from "./renderers/canvas/CircularWaveRenderer";
 export { WaveformRenderer } from "./renderers/canvas/WaveformRenderer";
 export { TunnelWaveRenderer } from "./renderers/webgl/TunnelWaveRenderer";
+export { SphereMeshRenderer } from "./renderers/three/SphereMeshRenderer";
+export { WavePlane3DRenderer } from "./renderers/three/WavePlane3DRenderer";
 
 export * from "./types/visualizer";

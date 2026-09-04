@@ -44,6 +44,7 @@ export function App() {
                     <option value="waveform">Waveform (Oscilloscope)</option>
                     <option value="tunnel">Tunnel</option>
                     <option value="sphere3d">Sphere 3D</option>
+                    <option value="wavePlane3d">3D Wave Plane (Terrain)</option>
                 </select>
             </div>
 
