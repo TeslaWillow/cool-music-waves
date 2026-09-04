@@ -4,6 +4,10 @@
 
 Transform any HTML `<audio>` element into an interactive, reactive visual experience with multiple rendering modes—ranging from circular waves and spectrum bars to WebGL tunnels and 3D spheres.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-000000?style=for-the-badge&logo=vercel)](https://vercel.com/teslawillows-projects/cool-music-waves-demo)
+
+🔗 **Live Demo:** [https://vercel.com/teslawillows-projects/cool-music-waves-demo](https://vercel.com/teslawillows-projects/cool-music-waves-demo)
+
 ---
 
 ## 🚀 Features
