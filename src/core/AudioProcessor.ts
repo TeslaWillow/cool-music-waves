@@ -5,6 +5,7 @@ export class AudioProcessor {
   private analyserNode: AnalyserNode | null = null; // An AudioNode that analyzes and outputs audio data
   private sourceNode: MediaElementAudioSourceNode | null = null; // An AudioNode that represents an audio element
   private frequencyData: Uint8Array<ArrayBuffer> | null = null; // An array that stores the frequency data of the audio
+  private timeDomainData: Uint8Array<ArrayBuffer> | null = null; // An array that stores the time domain (waveform) data of the audio
 
   public initialize(
     audioElement: HTMLAudioElement, // The audio element to analyze
@@ -47,6 +48,7 @@ export class AudioProcessor {
     }
 
     this.frequencyData = new Uint8Array(this.analyserNode.frequencyBinCount);
+    this.timeDomainData = new Uint8Array(this.analyserNode.fftSize);
     return true;
   }
 
@@ -57,6 +59,15 @@ export class AudioProcessor {
 
     this.analyserNode.getByteFrequencyData(this.frequencyData);
     return this.frequencyData;
+  }
+
+  public getTimeDomainData(): Uint8Array<ArrayBuffer> | null {
+    if (!this.analyserNode || !this.timeDomainData) {
+      return null;
+    }
+
+    this.analyserNode.getByteTimeDomainData(this.timeDomainData);
+    return this.timeDomainData;
   }
 
   public cleanup(): void {
@@ -76,5 +87,6 @@ export class AudioProcessor {
     }
 
     this.frequencyData = null;
+    this.timeDomainData = null;
   }
 }

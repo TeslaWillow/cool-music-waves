@@ -41,6 +41,7 @@ export function App() {
                     <option value="bars">Bars (Classic)</option>
                     <option value="spectrumBars">Spectrum Bars (Flame)</option>
                     <option value="circular">Circular</option>
+                    <option value="waveform">Waveform (Oscilloscope)</option>
                     <option value="tunnel">Tunnel</option>
                     <option value="sphere3d">Sphere 3D</option>
                 </select>

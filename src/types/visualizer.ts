@@ -1,4 +1,4 @@
-export type VisualizerMode = "circular" | "bars" | "spectrumBars" | "tunnel" | "sphere3d";
+export type VisualizerMode = "circular" | "bars" | "spectrumBars" | "tunnel" | "sphere3d" | "waveform";
 
 // Base type options
 export interface BaseVisualizerOptions {
@@ -34,6 +34,18 @@ export interface SpectrumBarsOptions extends BaseVisualizerOptions {
   decayRate?: number;
 }
 
+// Oscilloscope / Waveform options
+export interface WaveformOptions extends BaseVisualizerOptions {
+  strokeColor?: string;
+  lineWidth?: number;
+  glow?: boolean;
+  glowColor?: string;
+  glowBlur?: number;
+  amplitudeScale?: number;
+  reflection?: boolean;
+  reflectionOpacity?: number;
+}
+
 // 3D Sphere graph type options
 export interface Sphere3DOptions extends BaseVisualizerOptions {
   color?: string;
@@ -48,6 +60,7 @@ export interface Sphere3DOptions extends BaseVisualizerOptions {
 export interface AudioVisualizerProps {
   audioElement: HTMLAudioElement | null;
   mode?: VisualizerMode;
-  options?: CircularWaveOptions | BarsWaveOptions | SpectrumBarsOptions | Sphere3DOptions;
+  options?: CircularWaveOptions | BarsWaveOptions | SpectrumBarsOptions | WaveformOptions | Sphere3DOptions;
   className?: string;
 }
+

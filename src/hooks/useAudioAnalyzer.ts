@@ -40,7 +40,12 @@ export function useAudioAnalyzer(
     };
   }, [audioElement, fftSize, smoothingTimeConstant, minDecibels, maxDecibels]);
 
-  const getAudioData = (): Uint8Array | null => {
+  const getAudioData = (
+    dataType: "frequency" | "timeDomain" = "frequency",
+  ): Uint8Array | null => {
+    if (dataType === "timeDomain") {
+      return processorRef.current.getTimeDomainData();
+    }
     return processorRef.current.getFrequencyData();
   };
 

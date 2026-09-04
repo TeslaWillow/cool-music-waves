@@ -5,6 +5,7 @@ import { useAudioAnalyzer } from '../hooks/useAudioAnalyzer';
 import { BarsWaveRenderer } from '../renderers/canvas/BarsWaveRenderer';
 import { SpectrumBarsRenderer } from '../renderers/canvas/SpectrumBarsRenderer';
 import { CircularWaveRenderer } from '../renderers/canvas/CircularWaveRenderer';
+import { WaveformRenderer } from '../renderers/canvas/WaveformRenderer';
 import { TunnelWaveRenderer } from '../renderers/webgl/TunnelWaveRenderer';
 import { SphereMeshRenderer } from '../renderers/three/SphereMeshRenderer';
 import type { AudioVisualizerProps } from '../types/visualizer';
@@ -74,6 +75,12 @@ export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
                 rendererRef.current = new CircularWaveRenderer(ctx);
                 break;
             }
+            case 'waveform': {
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+                rendererRef.current = new WaveformRenderer(ctx);
+                break;
+            }
             case 'sphere3d': {
                 rendererRef.current = new SphereMeshRenderer(canvas);
                 break;
@@ -83,7 +90,7 @@ export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
         }
 
         const renderLoop = () => {
-            const data = getAudioData();
+            const data = getAudioData(mode === 'waveform' ? 'timeDomain' : 'frequency');
 
             if (data && rendererRef.current) {
                 rendererRef.current.render(data, canvas.width, canvas.height, options);

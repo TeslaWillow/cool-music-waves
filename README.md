@@ -8,10 +8,11 @@ Transform any HTML `<audio>` element into an interactive, reactive visual experi
 
 ## 🚀 Features
 
-- 🎨 **5 Visualization Modes:**
+- 🎨 **6 Visualization Modes:**
   - `circular`: Dynamic circular bar waves expanding to the rhythm of the audio.
   - `bars`: Classic frequency equalizer bars customizable with color gradients.
   - `spectrumBars`: Flame-style spectrum bars with mirroring, bottom reflection, and smooth decay effects.
+  - `waveform`: Real-time line wave / oscilloscope audio waveform.
   - `tunnel`: WebGL-accelerated 3D reactive tunnel.
   - `sphere3d`: Deformable 3D mesh sphere built on Three.js.
 - 📐 **Fully Responsive:** Automatically adjusts canvas dimensions to match the parent container via `ResizeObserver`.
@@ -127,7 +128,27 @@ Ideal for rich equalizer displays. Features center mirroring, lower reflection, 
 />
 ```
 
-### 4. `tunnel` (WebGL 3D Tunnel)
+### 4. `waveform` (Oscilloscope Line Waveform)
+Renders a real-time line waveform (oscilloscope) with customizable stroke color, glow, scale, and optional bottom reflection.
+
+```tsx
+<AudioVisualizer
+  audioElement={audioElement}
+  mode="waveform"
+  options={{
+    strokeColor: '#ffffff',
+    lineWidth: 2,
+    glow: true,
+    glowColor: '#00ffcc',
+    glowBlur: 12,
+    amplitudeScale: 1.2,
+    reflection: true,
+    reflectionOpacity: 0.3,
+  }}
+/>
+```
+
+### 5. `tunnel` (WebGL 3D Tunnel)
 Renders a 3D audio-reactive tunnel utilizing hardware-accelerated WebGL.
 
 ```tsx
@@ -140,7 +161,7 @@ Renders a 3D audio-reactive tunnel utilizing hardware-accelerated WebGL.
 />
 ```
 
-### 5. `sphere3d` (Three.js 3D Sphere)
+### 6. `sphere3d` (Three.js 3D Sphere)
 Generates a 3D mesh sphere that dynamically deforms its geometry vertices according to audio frequencies.
 
 ```tsx
@@ -167,7 +188,7 @@ Generates a 3D mesh sphere that dynamically deforms its geometry vertices accord
 | Property | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `audioElement` | `HTMLAudioElement \| null` | **Required** | Reference to the target HTML `<audio>` element. |
-| `mode` | `VisualizerMode` | `'circular'` | Render mode (`'circular'`, `'bars'`, `'spectrumBars'`, `'tunnel'`, `'sphere3d'`). |
+| `mode` | `VisualizerMode` | `'circular'` | Render mode (`'circular'`, `'bars'`, `'spectrumBars'`, `'waveform'`, `'tunnel'`, `'sphere3d'`). |
 | `options` | `BaseVisualizerOptions` | `{}` | Configuration object tailored to the chosen mode. |
 | `className` | `string` | `''` | Optional CSS class name for the wrapper element. |
 
@@ -205,6 +226,16 @@ Applicable to all visualizer modes:
 - `glowIntensity` (`number`): Glow intensity around the bars.
 - `decayRate` (`number`): Peak height decay rate for smooth transitions.
 - `gradientStops` (`Array<{ stop: number; color: string }>`): Custom color gradient stops.
+
+#### 〰️ `WaveformOptions` (`mode="waveform"`)
+- `strokeColor` (`string`): Color of the oscilloscope waveform line (`'#ffffff'`).
+- `lineWidth` (`number`): Width/thickness of the line in pixels (`2`).
+- `glow` (`boolean`): Enables shadow glow effect (`true`).
+- `glowColor` (`string`): Color of the glow effect.
+- `glowBlur` (`number`): Blur radius for glow (`10`).
+- `amplitudeScale` (`number`): Height multiplier scale factor (`1.0`).
+- `reflection` (`boolean`): Enables downward mirrored reflection wave (`false`).
+- `reflectionOpacity` (`number`): Opacity for bottom reflection (`0.25`).
 
 #### 🌐 `Sphere3DOptions` (`mode="sphere3d"`)
 - `color` (`string`): Color of the 3D material.
